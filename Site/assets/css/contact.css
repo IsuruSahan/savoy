@@ -1,0 +1,56 @@
+.cdcontainer{
+    display:flex;
+    grid-gap:2rem;
+    margin:auto;
+    background-color:#FFFFFF;
+    max-width:1360px;
+    margin-top:2rem;
+    margin-bottom:2rem;
+    
+    
+
+  }
+
+
+  .cditem1{
+    
+    /* background-color:red; */
+    width:100%;
+    padding:10rem;
+    margin:auto;
+    background-image: url('../images/contact/contact.jpg');
+
+    
+    
+    
+    
+  }
+
+  .cditem2{
+    background-color:#262626;
+    width:100%;
+    padding:2rem;
+    
+    
+  }
+
+  @media screen and (max-width: 1080px) {
+
+
+  .cdcontainer{
+    flex-wrap:wrap;
+    
+
+  }
+
+
+  .cditem1{
+    
+    display:flex;
+    place-content:center;
+    justify-content:center;
+    text-align:center;
+    
+  }
+
+      }
