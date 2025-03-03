@@ -19,32 +19,34 @@
             overflow: hidden;
             position: relative;
             width: 100%;
-            height: 400px; /* Reduced default height */
+            height: 400px;
         }
 
         .carousel-item {
-    width: 100%;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    left: 100%; /* Start off-screen to the right */
-    transition: left 0.5s ease-in-out;
-}
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+            visibility: hidden;
+        }
 
-.carousel-item.active {
-    left: 0; /* Slide to visible position */
-    position: relative;
-}
+        .carousel-item.active {
+            opacity: 1;
+            visibility: visible;
+            position: relative;
+        }
 
         .carousel-item img {
             width: 100%;
             height: 100%;
-            max-height: 400px; /* Match container height */
+            max-height: 400px;
             object-fit: cover;
             display: block;
         }
 
-        /* Controls */
         .carousel-control {
             position: absolute;
             top: 50%;
@@ -68,7 +70,6 @@
             right: 10px;
         }
 
-        /* Indicators */
         .carousel-indicators {
             position: absolute;
             bottom: 15px;
@@ -98,10 +99,9 @@
             background: white;
         }
 
-        /* Responsive adjustments */
         @media (max-width: 768px) {
             .carousel-inner {
-                height: 250px; /* Reduced for tablets */
+                height: 250px;
             }
             .carousel-item img {
                 max-height: 250px;
@@ -110,7 +110,7 @@
 
         @media (max-width: 576px) {
             .carousel-inner {
-                height: 150px; /* Reduced for mobile */
+                height: 150px;
             }
             .carousel-item img {
                 max-height: 150px;
@@ -121,12 +121,24 @@
 <body>
     <div class="carousel-container">
         <?php
-        // Array of banner images
-        $banners = [
-            'assets\images\banners\banner_3.svg',
-            'assets\images\banners\banner_2.svg',
-            'assets\images\banners\banner_one.svg'
-        ];
+        // Include your config file
+        include 'config.php'; // Adjust path if needed
+
+        // Query to fetch active banners
+        $query = "SELECT image_url FROM banners WHERE status = 1 ORDER BY id ASC";
+        $result = $conn->query($query);
+
+        $banners = [];
+        if ($result && $result->num_rows > 0) {
+            while ($row = $result->fetch_assoc()) {
+                $banners[] = $prefix . $row['image_url']; // Prepend URL prefix to filename
+            }
+        } else {
+            // Fallback banners if database is empty
+            $banners = [
+                'https://via.placeholder.com/1200x400?text=No+Banners+Available'
+            ];
+        }
         ?>
 
         <!-- Carousel -->
@@ -162,18 +174,15 @@
             const prevBtn = carousel.querySelector('.carousel-control-prev');
             const nextBtn = carousel.querySelector('.carousel-control-next');
             let currentIndex = 0;
-            const intervalTime = 5000;
+            const intervalTime = 3000;
             let interval;
 
             function showSlide(index) {
-                // Remove active class from current slide
                 items[currentIndex].classList.remove('active');
                 indicators[currentIndex].classList.remove('active');
                 
-                // Update index with wrapping
                 currentIndex = (index + items.length) % items.length;
                 
-                // Add active class to new slide
                 items[currentIndex].classList.add('active');
                 indicators[currentIndex].classList.add('active');
             }
@@ -186,7 +195,6 @@
                 showSlide(currentIndex - 1);
             }
 
-            // Auto slide
             function startInterval() {
                 interval = setInterval(nextSlide, intervalTime);
             }
@@ -195,7 +203,6 @@
                 clearInterval(interval);
             }
 
-            // Event listeners
             nextBtn.addEventListener('click', () => {
                 stopInterval();
                 nextSlide();
@@ -216,7 +223,6 @@
                 });
             });
 
-            // Touch support
             let touchStartX = 0;
             let touchEndX = 0;
 
@@ -238,11 +244,9 @@
                 startInterval();
             });
 
-            // Pause on hover
             carousel.addEventListener('mouseenter', stopInterval);
             carousel.addEventListener('mouseleave', startInterval);
 
-            // Start the carousel
             startInterval();
         });
     </script>

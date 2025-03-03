@@ -3,7 +3,7 @@ $hostname = "localhost"; // Your MySQL server address
 $username = "root"; // Your MySQL username
 $password = ""; // Your MySQL password
 $database = "monara_eft"; // Your MySQL database name
-$prefix = "https://test.athavaneng.com/EFTF/Admin/uploads/";
+$prefix = "http://localhost/EFTF/Admin/uploads/";
 
 $conn = new mysqli($hostname, $username, $password, $database);
 
