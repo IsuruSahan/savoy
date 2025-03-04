@@ -37,30 +37,9 @@
             background-color: rgb(8, 195, 148);
             color: white;
         }
-        .selected {
+        .selected-date {
             background-color: rgb(57, 4, 126);
             color: white;
-        }
-    </style>
-</head>
-<body>
-    <?php include 'includes/loader.php'; ?>
-    <main class="main-content">
-        <?php include 'includes/menu.php'; ?>
-
-        <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theater Seat Layout</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #fff;
-            color: #000;
-            margin: 0;
-            padding: 20px;
         }
         .theater-section {
             margin-bottom: 40px;
@@ -70,11 +49,11 @@
             font-size: 20px;
             font-weight: bold;
             margin-bottom: 10px;
-            color: #333;
+            color: #fff;
         }
         .price-info {
             font-size: 14px;
-            color: #666;
+            color: #999;
             margin-bottom: 20px;
         }
         .screen {
@@ -96,7 +75,7 @@
         .row-label {
             font-weight: bold;
             margin: 5px 10px;
-            color: #333;
+            color: #fff;
         }
         .seat {
             width: 30px;
@@ -115,83 +94,79 @@
             color: #000;
         }
         .selected {
-            background-color: #ffa500; /* Orange for selected seats */
+            background-color: #ffa500;
             color: #fff;
         }
         .unavailable {
-            background-color: #999; /* Gray for unavailable seats */
+            background-color: #999;
             color: #fff;
             cursor: not-allowed;
         }
     </style>
 </head>
 <body>
-    <br>
-    <br>
-    <br>
-    <!-- BALCONY Section -->
-    <div class="theater-section">
-        <div class="section-title">BALCONY</div>
-        <div class="price-info">(F. Rs. 860.00 / H. Rs. 605.00)</div>
-        <div class="screen">THEATER SCREEN</div>
-        <div class="seats">
-            <div class="row-label">F</div>
-            <div class="seat available">F21</div><div class="seat available">F20</div><div class="seat available">F19</div>
-            <div class="seat selected">F18</div><div class="seat selected">F17</div><div class="seat selected">F16</div>
-            <div class="seat available">F15</div><div class="seat available">F14</div><div class="seat available">F13</div>
-            <div class="seat unavailable">F12</div><div class="seat unavailable">F11</div><div class="seat unavailable">F10</div>
-            <!-- Repeat for other rows (E, D, C, B, A) with similar pattern -->
-            <div class="row-label">E</div>
-            <div class="seat available">E20</div><div class="seat available">E19</div><div class="seat available">E18</div>
-            <div class="seat selected">E17</div><div class="seat selected">E16</div><div class="seat selected">E15</div>
-            <div class="seat available">E14</div><div class="seat available">E13</div><div class="seat available">E12</div>
-            <div class="seat unavailable">E11</div><div class="seat unavailable">E10</div><div class="seat unavailable">E9</div>
-            <!-- Add rows D, C, B, A similarly -->
+    <?php include 'includes/loader.php'; ?>
+    <main class="main-content">
+        <?php include 'includes/menu.php'; ?>
+        <br><br><br>
+
+        <!-- Ticket Counter -->
+        <div class="ticket-counter-container" style="margin: 20px auto; max-width: 800px; text-align: center;">
+            <div class="card p-3 mb-4">
+                <h5 class="mb-3">Select Number of Tickets</h5>
+                <div class="input-group w-50 mx-auto">
+                    <button class="btn btn-outline-secondary" type="button" onclick="decreaseCount()">-</button>
+                    <input type="number" class="form-control text-center" id="ticketCount" value="1" min="1" max="10">
+                    <button class="btn btn-outline-secondary" type="button" onclick="increaseCount()">+</button>
+                </div>
+                <p class="mt-2 text-muted">Maximum 10 tickets per booking</p>
+                <p id="selectionStatus" class="mt-2">Selected: 0 seats</p>
+            </div>
         </div>
-    </div>
 
-    <!-- ODC Section -->
-    <div class="theater-section">
-        <div class="section-title">ODC</div>
-        <div class="price-info">(F. Rs. 750.00 / H. Rs. 485.00)</div>
-        <div class="screen">THEATER SCREEN</div>
-        <div class="seats">
-            <div class="row-label">O</div>
-            <div class="seat available">O14</div><div class="seat available">O13</div><div class="seat available">O12</div>
-            <div class="seat selected">O11</div><div class="seat selected">O10</div><div class="seat selected">O9</div>
-            <div class="seat available">O8</div><div class="seat available">O7</div><div class="seat available">O6</div>
-            <div class="seat unavailable">O5</div><div class="seat unavailable">O4</div><div class="seat unavailable">O3</div>
-            <!-- Repeat for other rows (N, M, L) with similar pattern -->
-            <div class="row-label">N</div>
-            <div class="seat available">N18</div><div class="seat available">N17</div><div class="seat available">N16</div>
-            <div class="seat selected">N15</div><div class="seat selected">N14</div><div class="seat selected">N13</div>
-            <div class="seat available">N12</div><div class="seat available">N11</div><div class="seat available">N10</div>
-            <div class="seat unavailable">N9</div><div class="seat unavailable">N8</div><div class="seat unavailable">N7</div>
-            <!-- Add rows M, L similarly -->
+        <!-- BALCONY Section -->
+        <div class="theater-section">
+            <div class="section-title">BALCONY</div>
+            <div class="price-info">(F. Rs. 860.00 / H. Rs. 605.00)</div>
+            <div class="screen">THEATER SCREEN</div>
+            <div class="seats">
+                <div class="row-label">F</div>
+                <div class="seat available">F21</div><div class="seat available">F20</div><div class="seat available">F19</div>
+                <div class="seat selected">F18</div><div class="seat selected">F17</div><div class="seat selected">F16</div>
+                <div class="seat available">F15</div><div class="seat available">F14</div><div class="seat available">F13</div>
+                <div class="seat unavailable">F12</div><div class="seat unavailable">F11</div><div class="seat unavailable">F10</div>
+                <div class="row-label">E</div>
+                <div class="seat available">E20</div><div class="seat available">E19</div><div class="seat available">E18</div>
+                <div class="seat selected">E17</div><div class="seat selected">E16</div><div class="seat selected">E15</div>
+                <div class="seat available">E14</div><div class="seat available">E13</div><div class="seat available">E12</div>
+                <div class="seat unavailable">E11</div><div class="seat unavailable">E10</div><div class="seat unavailable">E9</div>
+                
+            </div>
         </div>
-    </div>
 
-    <div class="continue-btn-container">
-        <button class="btn btn-primary btn-lg">Continue</button>
-    </div>
+        <!-- ODC Section -->
+        <div class="theater-section">
+            <div class="section-title">ODC</div>
+            <div class="price-info">(F. Rs. 750.00 / H. Rs. 485.00)</div>
+            <div class="screen">THEATER SCREEN</div>
+            <div class="seats">
+                <div class="row-label">O</div>
+                <div class="seat available">O14</div><div class="seat available">O13</div><div class="seat available">O12</div>
+                <div class="seat selected">O11</div><div class="seat selected">O10</div><div class="seat selected">O9</div>
+                <div class="seat available">O8</div><div class="seat available">O7</div><div class="seat available">O6</div>
+                <div class="seat unavailable">O5</div><div class="seat unavailable">O4</div><div class="seat unavailable">O3</div>
+                <div class="row-label">N</div>
+                <div class="seat available">N18</div><div class="seat available">N17</div><div class="seat available">N16</div>
+                <div class="seat selected">N15</div><div class="seat selected">N14</div><div class="seat selected">N13</div>
+                <div class="seat available">N12</div><div class="seat available">N11</div><div class="seat available">N10</div>
+                <div class="seat unavailable">N9</div><div class="seat unavailable">N8</div><div class="seat unavailable">N7</div>
+                
+            </div>
+        </div>
 
-    <br>
-
-    <script>
-        // Optional: Add interactivity to toggle seat selection
-        document.querySelectorAll('.seat.available').forEach(seat => {
-            seat.addEventListener('click', function() {
-                if (this.classList.contains('selected')) {
-                    this.classList.remove('selected');
-                } else {
-                    this.classList.add('selected');
-                }
-            });
-        });
-    </script>
-</body>
-</html>
-
+        <div class="continue-btn-container" style="text-align: center; margin: 20px 0;">
+            <button class="btn btn-primary btn-lg">Continue</button>
+        </div>
     </main>
 
     <?php include 'includes/footer.php'; ?>
@@ -211,42 +186,67 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- Custom Script -->
     <script>
-        let selectedDate = '';
+        let selectedSeats = [];
 
-        function selectDate(date) {
-            selectedDate = date;
-            document.querySelectorAll('.date-button').forEach(btn => btn.classList.remove('selected'));
-            event.target.classList.add('selected');
-
-            const showtimesContainer = document.getElementById('showtimes');
-            showtimesContainer.innerHTML = `<h5 class="mt-3">Showtimes for ${new Date(date).toLocaleDateString()}</h5>`;
-
-            <?php foreach ($movies as $movie): ?>
-                <?php foreach ($movie['theaters'] as $theater): ?>
-                    showtimesContainer.innerHTML += `
-                        <h5 class="mt-3"><i class="bi bi-geo-alt"></i> <?= $theater['name'] ?></h5>
-                        <?php foreach ($theater['formats'] as $format): ?>
-                            <h6>
-                                <?= $format['type'] ?>
-                                <img src="<?= $format['badge'] ?>" alt="Format" height="20">
-                            </h6>
-                            <div>
-                                <?php foreach ($format['showtimes'] as $time): ?>
-                                    <button class="btn btn-outline-danger m-1"><?= $time ?></button>
-                                <?php endforeach; ?>
-                            </div>
-
-                            
-                        <?php endforeach; ?>
-                    `;
-                <?php endforeach; ?>
-            <?php endforeach; ?>
-
-       
-
-
-         
+        function increaseCount() {
+            const input = document.getElementById('ticketCount');
+            if (parseInt(input.value) < 10) {
+                input.value = parseInt(input.value) + 1;
+                updateSelectionStatus();
+            }
         }
+
+        function decreaseCount() {
+            const input = document.getElementById('ticketCount');
+            if (parseInt(input.value) > 1) {
+                input.value = parseInt(input.value) - 1;
+                updateSelectionStatus();
+            }
+        }
+
+        function updateSelectionStatus() {
+            const requiredCount = parseInt(document.getElementById('ticketCount').value);
+            const selectedCount = selectedSeats.length;
+            const statusElement = document.getElementById('selectionStatus');
+            
+            statusElement.textContent = `Selected: ${selectedCount} seats`;
+            if (selectedCount < requiredCount) {
+                statusElement.classList.add('text-warning');
+                statusElement.classList.remove('text-success');
+            } else if (selectedCount === requiredCount) {
+                statusElement.classList.add('text-success');
+                statusElement.classList.remove('text-warning');
+            } else {
+                statusElement.classList.add('text-danger');
+                statusElement.classList.remove('text-success');
+            }
+        }
+
+        document.querySelectorAll('.seat.available').forEach(seat => {
+            seat.addEventListener('click', function() {
+                const requiredCount = parseInt(document.getElementById('ticketCount').value);
+                const seatId = this.textContent;
+
+                if (this.classList.contains('selected')) {
+                    this.classList.remove('selected');
+                    selectedSeats = selectedSeats.filter(s => s !== seatId);
+                } else if (selectedSeats.length < requiredCount) {
+                    this.classList.add('selected');
+                    selectedSeats.push(seatId);
+                }
+
+                updateSelectionStatus();
+            });
+        });
+
+        document.getElementById('ticketCount').addEventListener('change', function() {
+            if (this.value < 1) this.value = 1;
+            if (this.value > 10) this.value = 10;
+            updateSelectionStatus();
+        });
+
+        // Initialize status
+        updateSelectionStatus();
     </script>
 </body>
 </html>
